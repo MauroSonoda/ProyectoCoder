@@ -1,9 +1,9 @@
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-        <a class="navbar-brand" href="#!">Inicio</a>
+        <a class="navbar-brand" href="{% url 'inicio' %}">Inicio</a>
         <a class="navbar-brand" href="{% url 'listaprofesores' %}">Profesores</a>
-        <a class="navbar-brand" href="{% url 'Cursos' %}">Cursos</a>
-        <a class="navbar-brand" href="{% url 'Estudiantes' %}">Estudiantes</a>
+        <a class="navbar-brand" href="{% url 'listacursos' %}">Cursos</a>
+        <a class="navbar-brand" href="{% url 'listaEstudiantes' %}">Estudiantes</a>
         <a class="navbar-brand" href="{% url 'Entregables' %}">Entregables</a>
         <a class="btn btn-primary" href="#signup">Sign Up</a>
     </div>

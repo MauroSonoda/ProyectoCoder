@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from .models import Curso,Profesor
+from .models import Curso,Profesor,Estudiante
 from django.http import HttpResponse,HttpRequest
-from .forms import CursoFormulario,ProfesorFormulario
+from .forms import CursoFormulario,ProfesorFormulario,EstudianteFormulario
+from django.views.generic.list import ListView #me va a permitir listar 
+from django.views.generic.detail import DetailView#mostar el detalle
+from django.views.generic.edit import DeleteView,CreateView#eliminar,crear y act nuevo registro
 
 # Create your views here.
 def curso(req,nombre,camada):
@@ -96,3 +99,73 @@ def editarProfesor(req,id):
             
             }) #no puede estar vacio #si abro con metodo get viene aca       
         return render(req,"editarProfesor.html",{"miFormulario":miFormulario,"id": profesor.id })
+#recuperar todo los cursos y rendrizo en un html
+class CursoList(ListView):#eredo
+    model= Curso
+    template_name="curso_list.html" 
+    context_object_name="cursos"
+    
+class CursoDetail(DetailView):
+    model = Curso
+    template_name = "curso_detail.html"
+    context_object_name="curso"
+class CursoCreate(CreateView):
+    model = Curso
+    template_name = "curso_create.html"
+    fields=["nombre","camada"]
+    success_url="/app-coder/"
+    
+class CursoDelete(DeleteView):
+    model = Curso
+    template_name = "curso_delete.html"
+    success_url="/app-coder/"
+    
+def listaEstudiantes(req):
+    estudiantes = Estudiante.objects.all()
+    return render(req,"estudiante_list.html",{"estudiante":estudiantes})
+def creaEstudiante(req):
+    if req.method == 'POST':
+        miFormulario=EstudianteFormulario(req.POST)
+        if miFormulario.is_valid():
+            data=miFormulario.cleaned_data
+            
+            estudiante=Estudiante(nombre=data["nombre"],apellido=data["apellido"],email=data["email"])
+            estudiante.save()
+            return render(req,"inicio.html",{"mensaje": "estudiante creado con exito"})
+        else: 
+            return render(req,"inicio.html",{"mensaje": "formulario invalido"})
+    else:
+        miFormulario=EstudianteFormulario()        
+        return render(req,"estudianteFormulario.html",{"miFormulario":miFormulario})
+    
+def editarEstudiante(req,id):
+    estudiante=Estudiante.objects.get(id=id)
+    
+    if req.method == 'POST':
+        miFormulario=EstudianteFormulario(req.POST)
+        if miFormulario.is_valid():
+            data=miFormulario.cleaned_data
+            #sobreescribo
+            estudiante.nombre=data["nombre"]
+            estudiante.apellido=data["apellido"]
+            estudiante.email=data["email"]
+            estudiante.save() #guardo
+            
+            return render(req,"inicio.html",{"mensaje": "editado con exito"})
+        else: 
+            return render(req,"inicio.html",{"mensaje": "formulario invalido"})
+    else:
+        miFormulario=EstudianteFormulario(initial={
+            "nombre":estudiante.nombre,
+            "apellido":estudiante.apellido,
+            "email":estudiante.email,
+            })     
+        return render(req,"editarEstudiante.html",{"miFormulario":miFormulario,"id": estudiante.id })
+def eliminarEstudiante(req,id):
+      if req.method =='POST':
+        
+        estudiante=Estudiante.objects.get(id=id)
+        estudiante.delete()
+        
+        estudiante = Estudiante.objects.all()
+        return render(req,"estudiante_list.html",{"estudiante":estudiante})

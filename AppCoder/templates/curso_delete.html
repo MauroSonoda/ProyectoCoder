@@ -1,0 +1,7 @@
+{% extends 'padre.html' %}
+{% block  contenidoQueCambia%}
+   <form method="post"> {% csrf_token %}<!-- es tipo post al clicker enviar-->
+        <button type="submit">Eliminar</button>
+   </form>
+    
+{% endblock contenidoQueCambia%}

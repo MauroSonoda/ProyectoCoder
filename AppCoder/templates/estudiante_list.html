@@ -1,0 +1,17 @@
+{% extends 'padre.html' %}
+
+{% block contenidoQueCambia %}
+    
+    <ul>
+        {% for estudiante in estudiante  %}
+            <li>{{estudiante}}</li>
+            <div>
+                <form action="{% url 'eliminarEstudiante' estudiante.id %}" method="post">{% csrf_token %}
+                    <button type="submit">eliminar</button>
+                </form>
+            </div>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'creaEstudiantes' %}">crear estudiante</a>
+{% endblock contenidoQueCambia %}
+
