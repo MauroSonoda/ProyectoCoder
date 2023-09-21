@@ -1,6 +1,6 @@
 from django.urls import path
 from AppCoder.views import *
-
+from django.contrib.auth.views import LogoutView #es clase
 urlpatterns = [
     path('agrega-curso/<nombre>/<camada>', curso),
     path('lista-cursos/',lista_cursos),
@@ -8,7 +8,7 @@ urlpatterns = [
     path('cursos/',cursos,name='Cursos'),
     path('profesores/',profesores,name='Profesores'),
     path('estudiantes/',estudiantes,name='Estudiantes'),
-    path('entregables/',entregables,name='Entregables'),
+    path('sobre mi/',sobremi,name="sobremi"),
     path('curso-formulario/',curso_formulario,name='cursoFormulario'),
     path('busqueda-camada/',busquedaCamda,name='BusquedaCamada'),
     path('buscar/',buscar,name="Buscar"),
@@ -23,5 +23,8 @@ urlpatterns = [
     path('listaEstudiantes/',listaEstudiantes,name="listaEstudiantes"),
     path('creaEstudiante/',creaEstudiante,name="creaEstudiantes"),
     path('editarEstudiante/<int:id>',editarEstudiante,name="editarEstudiante"),
-    path('eliminaEstudiante/<int:id>',eliminarEstudiante,name="eliminarEstudiante"), 
-]  
+    path('eliminaEstudiante/<int:id>',eliminarEstudiante,name="eliminarEstudiante"),
+    path('login/',loginView,name="Login"),
+    path('registrar/',register,name="registrar"),
+    path('logout/',LogoutView.as_view(template_name="logout.html"),name="logout"),  
+]   

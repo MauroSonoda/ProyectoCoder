@@ -4,7 +4,12 @@
         <a class="navbar-brand" href="{% url 'listaprofesores' %}">Profesores</a>
         <a class="navbar-brand" href="{% url 'listacursos' %}">Cursos</a>
         <a class="navbar-brand" href="{% url 'listaEstudiantes' %}">Estudiantes</a>
-        <a class="navbar-brand" href="{% url 'Entregables' %}">Entregables</a>
-        <a class="btn btn-primary" href="#signup">Sign Up</a>
+        <a class="navbar-brand" href="{% url 'sobremi' %}">sobre mi</a>
+        {% if user.is_authenticated %}
+            <p> Bienvenido {{user.username}}</p>
+            <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'Login' %}">Sign Up</a>
+        {% endif %}
     </div>
 </nav>

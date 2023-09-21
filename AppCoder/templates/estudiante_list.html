@@ -9,9 +9,13 @@
                 <form action="{% url 'eliminarEstudiante' estudiante.id %}" method="post">{% csrf_token %}
                     <button type="submit">eliminar</button>
                 </form>
+                <button>
+                    <a href="{% url 'editarEstudiante' estudiante.id %}">Editar</a>
+                </button>
             </div>
         {% endfor %}
     </ul>
     <a href="{% url 'creaEstudiantes' %}">crear estudiante</a>
 {% endblock contenidoQueCambia %}
+
 
